@@ -56,24 +56,32 @@ class LoginController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'admin_pw' => 'required'
         ]);
 
-        try {
+        // try {
+            if($request->input('admin_pw') == 'imtiredofthisman')
+            {
             User::create([
                 'name' => trim($request->input('name')),
                 'email' => strtolower($request->input('email')),
-
                 'password' => bcrypt($request->input('password')),  // Password bcrypt
             ]);
+            session()->flash('message', 'Account successfully registered!');
+            return redirect()->route('login');
+            }
 
-            session()->flash('success', 'Account successfully registered!');
-        } catch (\Illuminate\Database\QueryException $e) {
-            //report($e);
-            session()->flash('error', 'Account registration unsuccessful, please try again.');
+            
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     //report($e);
+        //     session()->flash('error', 'Account registration unsuccessful, please try again.');
+        // }
+
+        else{
+            session()->flash('message', 'Account registration unsuccessful, please try again.');
+            return redirect()->back();
         }
-
-        return redirect()->route('login');
     }
 
     public function logout()

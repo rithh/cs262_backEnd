@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/register_style.css') }}">
 @endif
 
+@if (Request::is('showAddForm'))
+    <link rel="stylesheet" href="{{ asset('/assets/css/login_style.css') }}">
+@endif
 <title>Book bus, boat and private taxi in Cambodia | BookMeBus</title>
 <!-- tab logo -->
 <link rel="icon" href="{{ asset('assets/images/bookmebus.ico') }}">

@@ -3,28 +3,31 @@
 <?php $__env->startSection('contents'); ?>
     <div class="container">
         <div class="ticket">
-            <h1>Booking</h1>
-            
-            <?php $__currentLoopData = $tpl_bus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="row mt-3" id="sum_div">
-                    <h3>Trip Summary</h3>
-                    <div class="col-12">
-                        <hr>
-                        <p>Direction : <?php echo e($bus->depart_from); ?> to <?php echo e($bus->arrive_at); ?></p>
-                        <hr>
-                        <p>Departure : February 1, 2023 <?php echo e($bus->depart_time); ?></p>
-                        <hr>
-                        <p>Operator : <?php echo e($bus->op_name); ?></p>
-                        <hr>
-                        <p>Type : VIP Van</p>
-                        <hr>
-                        <p># of Passengers : 1</p>
-                        <hr>
-                        <p>Total : USD <?php echo e($bus->price); ?></p>
-                        <script></script>
-                    </div>
+            <?php if(session('message')): ?>
+                <div class="alert alert-danger">
+                    <?php echo e(session('message')); ?>
+
                 </div>
+            <?php endif; ?>
+            <?php $__currentLoopData = $tpl_bus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <h1>Choose number of seats</h1>
+                <?php if($bus->seat_avail > 0): ?>
+                    <form class="form mt-3" action="<?php echo e(url('add_cart', $bus->id)); ?>" method="Post">
+                        <?php echo csrf_field(); ?>
+                        <div class="form-group mb-2">
+                            <input type="number" name="booked" class="form-control" min="1"
+                                placeholder="No. of Seat(s)">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Confirm Booking
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <h1> Please choose a different bus</h1>
+                <?php endif; ?>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+            
         </div>
     </div>
 <?php $__env->stopSection(); ?>

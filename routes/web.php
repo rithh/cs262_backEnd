@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [PageController::class, 'home']);
-
 // Route::get('/login', [LoginController::class,'process_login']);
 
 // Route::get('/register', [PageController::class,'register']);
@@ -29,7 +26,10 @@ Route::get('/register', [LoginController::class, 'show_signup_form'])->name('reg
 Route::post('/register', [LoginController::class, 'process_signup']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::group(["middleware" => "auth"], function () {
 
-    Route::get('/ticket_detail/{id}', [PageController::class, 'ticket_detail']);
+Route::group(["middleware" => "auth"], function () {
+    Route::get('/', [PageController::class, 'home']);
+    Route::get('/dashboard', [PageController::class, 'dashboard']);
+    Route::get('/showAddForm', [PageController::class, 'showAddForm']);
+    Route::post('/add', [PageController::class, 'add']);
 });
